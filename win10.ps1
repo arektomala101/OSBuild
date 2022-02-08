@@ -21,11 +21,18 @@ Write-Warning "That didn't work because I haven't coded it yet!"
 
 #Start OSDCloud ZTI the RIGHT way
 Write-Host  -ForegroundColor Cyan "Starting image deployment..."
-Start-OSDCloud -OSLanguage "en-us" -OSBuild "21H1" -OSEdition Enterprise -ZTI
+Start-OSDCloud -OSLanguage "en-us" -OSBuild "21H1" -OSEdition Enterprise -OSLicense Volume -ZTI
 
 #Anything I want  can go right here and I can change it at any time since it is in the Cloud!!!!!
 Write-Host  -ForegroundColor Cyan "Starting OSDCloud PostAction ..."
-Write-Warning "I'm not sure of what to put here yet"
+$Params = @{
+    AddNetFX3 = $true
+    AddRSAT = $true
+    RemoveAppx = "CommunicationsApps","OfficeHub","People","Skype","Solitaire","Xbox","ZuneMusic","ZuneVideo"
+    UpdateDrivers = $true
+    UpdateWindows = $true
+}
+Start-OOBEDeploy @Params
 
 #Restart from WinPE
 Write-Host  -ForegroundColor Cyan "Restarting in 20 seconds!"
