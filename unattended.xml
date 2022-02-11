@@ -18,5 +18,4 @@
             </OOBE>
         </component>
     </settings>
-    <cpi:offlineImage cpi:source="wim:e:/inextocustomimage/install.wim#Inexto Win10 Pro Reference Image" xmlns:cpi="urn:schemas-microsoft-com:cpi" />
 </unattend>
