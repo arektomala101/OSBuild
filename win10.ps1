@@ -22,8 +22,9 @@ Write-Warning "That didn't work because I haven't coded it yet!"
 #Start OSDCloud ZTI the RIGHT way
 Write-Host  -ForegroundColor Cyan "Starting image deployment..."
 Start-OSDCloud -OSLanguage "en-us" -OSBuild "21H1" -OSEdition Enterprise -OSLicense Volume -SkipAutopilot -ZTI
-
+Write-Host  -ForegroundColor Cyan "DImage deployment completed. Starting OSDCloud PostAction ..."
 #Anything I want  can go right here and I can change it at any time since it is in the Cloud!!!!!
+<#
 Write-Host  -ForegroundColor Cyan "Starting OSDCloud PostAction ..."
 $Params = @{
     AddNetFX3 = $true
@@ -38,3 +39,4 @@ Start-OOBEDeploy @Params
 Write-Host  -ForegroundColor Cyan "Restarting in 20 seconds!"
 Start-Sleep -Seconds 20
 wpeutil reboot
+#>
