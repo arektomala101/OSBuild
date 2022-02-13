@@ -24,19 +24,33 @@ Write-Host  -ForegroundColor Cyan "Starting image deployment..."
 Start-OSDCloud -OSLanguage "en-us" -OSBuild "21H1" -OSEdition Enterprise -OSLicense Volume -SkipAutopilot -ZTI
 Write-Host  -ForegroundColor Cyan "DImage deployment completed. Starting OSDCloud PostAction ..."
 #Anything I want  can go right here and I can change it at any time since it is in the Cloud!!!!!
-<#
-Write-Host  -ForegroundColor Cyan "Starting OSDCloud PostAction ..."
-$Params = @{
-    AddNetFX3 = $true
-    AddRSAT = $true
-    RemoveAppx = "CommunicationsApps","OfficeHub","People","Skype","Solitaire","Xbox","ZuneMusic","ZuneVideo"
-    UpdateDrivers = $true
-    UpdateWindows = $true
-}
-Start-OOBEDeploy @Params
 
-#Restart from WinPE
-Write-Host  -ForegroundColor Cyan "Restarting in 20 seconds!"
-Start-Sleep -Seconds 20
-wpeutil reboot
-#>
+##########################
+# Setting up xml file
+##########################
+$childString = @"
+<?xml version="1.0" encoding="utf-8"?>
+<unattend xmlns="urn:schemas-microsoft-com:unattend">
+    <settings pass="specialize">
+        <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <ComputerName>ArekTest</ComputerName>
+        </component>
+    </settings>
+</unattend>
+"@
+
+$xmlFile = "C:\Windows\Panther\Invoke-OSDSpecialize.xml"
+[xml]$parent = Get-Content -Path $xmlFile
+$parentnode = $parent.unattend.settings
+
+$child = [xml] ($childString)
+$childnode = $child.SelectSingleNode("/*/*/*")
+$importedNode = $parent.ImportNode($childNode,$true)
+$parentnode.InsertAfter($importednode, $parentnode.LastChild)
+Write-Host("Modified XML to: $($parent.OuterXML)")
+$parent.Save($xmlFile)
+########################
+
+
+#wpeutil reboot
+
