@@ -33,7 +33,7 @@ $oobe = @"
 <unattend xmlns="urn:schemas-microsoft-com:unattend">
   <settings pass="oobeSystem">
     <component name="Microsoft-Windows-International-Core" processorArchitecture="wow64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <UserLocale>en-US</UserLocale>
+      <UILanguage>en-US</UILanguage>
     </component>
   </settings>
 </unattend>
