@@ -118,5 +118,5 @@ $parent.Save($xmlFile)
 
 
 
-wpeutil reboot
+#wpeutil reboot
 
